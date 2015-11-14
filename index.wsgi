@@ -2,7 +2,7 @@
 from datetime import datetime
 import sys
 import os
-from bottle import route, run, template, request, get, post, view
+from bottle import Bottle, route, run, template, request, get, post, view
 
 import sae
 
