@@ -45,9 +45,9 @@ def welcome():
 @app.post('/diary')
 def print_input():
     client_input = request.forms.get('content')
- #   diary_write(client_input)
- #   data = diary_lines()
-    return template('welcome_diary', content=client_input)
+    diary_write(client_input)
+    data = diary_lines()
+    return template('welcome_diary', content=data)
 
 application = sae.create_wsgi_app(app)
 
