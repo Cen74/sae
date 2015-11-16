@@ -40,6 +40,18 @@ def diary_write(data):
     key = 'Null:'+str_wtime
     kv.set(key, data)
    
+def cmd_output(list_k):
+    TAG = 'Null'
+    str_bytes = "Diary History:\n"
+    str_bytes += "TAG as:%s\n" % TAG 
+    for line in list_k:
+        str_bytes += line
+        str_bytes += '\n' 
+
+    return str_bytes
+
+
+
 
 @app.get('/diary')
 def welcome():
@@ -56,11 +68,8 @@ def print_input():
 @app.get('/cmd')
 def log():
     history_cmd = check_file()
-    str_bytes = ""
-    for line in history_cmd:
-        str_bytes += line
-        str_bytes += '\n' 
-    return str_bytes
+    
+    return cmd_output(history_cmd)
 
 
 application = sae.create_wsgi_app(app)
