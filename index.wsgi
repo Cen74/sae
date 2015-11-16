@@ -41,8 +41,6 @@ def diary_write(data):
     kv.set(key, data)
    
 
-
-
 @app.get('/diary')
 def welcome():
     history = check_file()
@@ -58,7 +56,11 @@ def print_input():
 @app.get('/cmd')
 def log():
     history_cmd = check_file()
-    return 'ok'
+    str_bytes = ""
+    for line in history_cmd:
+        str_bytes += line
+        str_bytes += '\n' 
+    return str_bytes
 
 
 application = sae.create_wsgi_app(app)
