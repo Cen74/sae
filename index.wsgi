@@ -5,7 +5,9 @@ import os
 from bottle import Bottle, route, run, template, request, get, post, view
 
 import sae
+import sae.kvdb
 
+kv = sae.kvdb.Client()
 
 app = Bottle()
 
@@ -15,11 +17,11 @@ def hello():
 
 
 def diary_lines():
-    diary = open('diary.txt')
-    content = diary.readlines()
-    content = content
-    diary.close()
+    content = [] 
+    for i in kv.getkeys_by_prefix('Null'):
+        content += [kv.get(i)]
     return content 
+'''  
 
 def check_file():
     if os.path.exists('diary.txt'):
@@ -29,18 +31,20 @@ def check_file():
 
     return file_content
     
-
+'''
 def diary_write(data):  
-    with open('diary.txt', 'a+') as diary:
-        wtime = datetime.now()
-        diary.write(wtime.strftime("%Y/%m/%d %H:%M:%S ")+ data) 
-        diary.write('\n')
+    wtime = datetime.now()
+    str_wtime = wtime.strftime("%Y-%m-%d-%H-%M-%S")
+
+    key = 'Null:'+str_wtime
+    kv.set(key, data)
+   
+
 
 
 @app.get('/diary')
 def welcome():
-	data = check_file()
-	return template('welcome_diary', content=data )
+    return template('welcome_diary', content = [])
 
 @app.post('/diary')
 def print_input():
@@ -49,18 +53,7 @@ def print_input():
     data = diary_lines()
     return template('welcome_diary', content=data)
 
-application = sae.create_wsgi_app(app)
-
-
-'''
-import sae
-
-def app(environ, start_response):
-    status = '200 OK'
-    response_headers = [('Content-type', 'text/plain')]
-    start_response(status, response_headers)
-    return ['Hello, world!']
 
 application = sae.create_wsgi_app(app)
 
-'''
+
