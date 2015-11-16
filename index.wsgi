@@ -21,17 +21,18 @@ def diary_lines():
     for i in kv.getkeys_by_prefix('Null'):
         content += [kv.get(i)]
     return content 
-'''  
+
 
 def check_file():
-    if os.path.exists('diary.txt'):
-        file_content = diary_lines()
+    keys = kv.getkeys_by_prefix('')
+    if not keys:
+        content = ['Empty Diary']
     else:
-        file_content = "Empty Diary" 
+        content = diary_lines() 
 
-    return file_content
+    return content
     
-'''
+
 def diary_write(data):  
     wtime = datetime.now()
     str_wtime = wtime.strftime("%Y-%m-%d-%H-%M-%S")
@@ -44,7 +45,8 @@ def diary_write(data):
 
 @app.get('/diary')
 def welcome():
-    return template('welcome_diary', content = [])
+    history = check_file()
+    return template('welcome_diary', content = history)
 
 @app.post('/diary')
 def print_input():
