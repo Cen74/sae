@@ -55,6 +55,11 @@ def print_input():
     data = diary_lines()
     return template('welcome_diary', content=data)
 
+@app.get('/cmd')
+def log():
+    history_cmd = check_file()
+    return 'ok'
+
 
 application = sae.create_wsgi_app(app)
 
