@@ -51,8 +51,6 @@ def cmd_output(list_k):
     return str_bytes
 
 
-
-
 @app.get('/diary')
 def welcome():
     history = check_file()
@@ -66,10 +64,15 @@ def print_input():
     return template('welcome_diary', content=data)
 
 @app.get('/cmd')
-def log():
-    history_cmd = check_file()
-    
+def login():
+    history_cmd = check_file()    
     return cmd_output(history_cmd)
+
+@app.post('/cmd')
+def cmd_e():
+    key = request.forms.get('key')
+ #   value = request.forms.get('value')
+    print key
 
 
 application = sae.create_wsgi_app(app)
