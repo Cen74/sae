@@ -68,11 +68,13 @@ def login():
     history_cmd = check_file()    
     return cmd_output(history_cmd)
 
-@app.post('/cmd')
-def cmd_e():
+@app.post('/cmd/set')
+def set_tag():
     key = request.forms.get('key')
- #   value = request.forms.get('value')
-    print key
+    kv.set(key, '')
+    print 'set TAG:%s' % key
+    return 'set TAG:%s' % key
+
 
 
 application = sae.create_wsgi_app(app)
