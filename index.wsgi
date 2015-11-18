@@ -37,17 +37,16 @@ def diary_write(data, TAG='Null'):
     wtime = datetime.now()
     str_wtime = wtime.strftime("%Y-%m-%d-%H-%M-%S")
 
-    key = TAG+str_wtime
+    key = str_wtime+':'+TAG
     kv.set(key, data)
 
     return "key:%s, value:%s" % (key, data)
    
-def cmd_output(list_k):
-    TAG = 'Null'
+def cmd_output(kv, TAG='Null'):
     str_bytes = "Diary History:\n"
     str_bytes += "TAG as:%s\n" % TAG 
-    for line in list_k:
-        str_bytes += line
+    for line in kv.getkeys_by_prefix[TAG]:
+        str_bytes += [kv.get(line)]
         str_bytes += '\n' 
 
     return str_bytes
@@ -80,8 +79,13 @@ def set_tag():
 @app.post('/cmd/input')
 def input_kv():
     key = request.forms.get('key')
-    value = request.forms.ge('value')
+    value = request.forms.get('value')
     return diary_write(key, value)
+
+@app.post('/cmd/history')
+def feedback_history():
+    key = request.forms.get('key')
+    return cmd_output(kv, key)
 
 
 application = sae.create_wsgi_app(app)
