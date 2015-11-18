@@ -33,12 +33,14 @@ def check_file():
     return content
     
 
-def diary_write(data):  
+def diary_write(data, TAG='Null'):  
     wtime = datetime.now()
     str_wtime = wtime.strftime("%Y-%m-%d-%H-%M-%S")
 
-    key = 'Null:'+str_wtime
+    key = TAG+str_wtime
     kv.set(key, data)
+
+    return "key:%s, value:%s" % (key, data)
    
 def cmd_output(list_k):
     TAG = 'Null'
@@ -75,6 +77,11 @@ def set_tag():
     print 'set TAG:%s' % key
     return 'set TAG:%s' % key
 
+@app.post('/cmd/input')
+def input_kv():
+    key = request.forms.get('key')
+    value = request.forms.ge('value')
+    return diary_write(key, value)
 
 
 application = sae.create_wsgi_app(app)
