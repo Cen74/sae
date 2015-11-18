@@ -45,8 +45,8 @@ def diary_write(data, TAG='Null'):
 def cmd_output(TAG='Null'):
     str_bytes = "Diary History:\n"
     str_bytes += "TAG as:%s\n" % TAG 
-    for line in kv.getkeys_by_prefix[TAG]:
-        str_bytes += [kv.get(line)]
+    for i in kv.getkeys_by_prefix(TAG):
+        str_bytes += kv.get(i)
         str_bytes += '\n' 
 
     return str_bytes
@@ -80,7 +80,7 @@ def set_tag():
 def input_kv():
     key = request.forms.get('key')
     value = request.forms.get('value')
-    return diary_write(key, value)
+    return diary_write(value, key)
 
 @app.post('/cmd/history')
 def feedback_history():
