@@ -37,15 +37,24 @@ def diary_write(data, TAG='Null'):
     wtime = datetime.now()
     str_wtime = wtime.strftime("%Y-%m-%d-%H-%M-%S")
 
-    key = str_wtime+':'+TAG
+    key = TAG+':'+str_wtime
     kv.set(key, data)
 
     return "key:%s, value:%s" % (key, data)
    
 def cmd_output(TAG='Null'):
     str_bytes = "Diary History:\n"
-    str_bytes += "TAG as:%s\n" % TAG 
-    for i in kv.getkeys_by_prefix(TAG):
+    key = TAG+':' 
+    print 'TAG as:%s' % TAG
+    str_bytes += 'TAG as:%s\n' % TAG
+
+    if check_file() == 'Empty Diary':
+        return 'Empty Diary'
+
+
+    print kv.getkeys_by_prefix(key)
+    for i in kv.getkeys_by_prefix(key):
+        print kv.get(i)
         str_bytes += kv.get(i)
         str_bytes += '\n' 
 
@@ -65,9 +74,8 @@ def print_input():
     return template('welcome_diary', content=data)
 
 @app.get('/cmd')
-def login():
-    history_cmd = check_file()    
-    return cmd_output(history_cmd)
+def login():  
+    return cmd_output()
 
 @app.post('/cmd/set')
 def set_tag():
