@@ -42,7 +42,7 @@ def diary_write(data, TAG='Null'):
 
     return "key:%s, value:%s" % (key, data)
    
-def cmd_output(kv, TAG='Null'):
+def cmd_output(TAG='Null'):
     str_bytes = "Diary History:\n"
     str_bytes += "TAG as:%s\n" % TAG 
     for line in kv.getkeys_by_prefix[TAG]:
@@ -84,8 +84,8 @@ def input_kv():
 
 @app.post('/cmd/history')
 def feedback_history():
-    key = request.forms.get('key')
-    return cmd_output(kv, key)
+    key = request.forms.get('key')  
+    return cmd_output(key)   #'list' object has no attribute 'getkeys_by_prefix'
 
 
 application = sae.create_wsgi_app(app)
