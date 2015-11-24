@@ -11,7 +11,7 @@ import sae
 #kv = sae.kvdb.Client()
 
 app = Bottle()
-app.debug(True)
+bottle.debug(True)
 
 application = sae.create_wsgi_app(app)
 
