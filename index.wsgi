@@ -11,13 +11,14 @@ import sae
 #kv = sae.kvdb.Client()
 
 app = Bottle()
+app.debug(True)
 
 application = sae.create_wsgi_app(app)
 
 @app.get('/')
 def login():
     token = 'janet2mm'
-    #print request.query.keys()
+    print request.query.keys()
     #print request.query.echostr
     #return request.query.echostr
 
