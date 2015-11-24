@@ -12,23 +12,24 @@ kv = sae.kvdb.Client()
 
 app = Bottle()
 
+application = sae.create_wsgi_app(app)
+
 @app.get('/')
 def login():
-    token = janet2mm
+    token = 'janet2mm'
+    print request.query.keys()
+    print request.query.echostr
+    return request.query.echostr
 
-    signature = request.forms.get('signature')
-    timestamp = request.forms.get('timestamp')
-    nonce = request.forms.get('nonce')
-    echorstr = request.forms.get('echorstr')
-
-    weixin_login = hashlib.sha1([token, timestamp, nonce].sort())
+    '''weixin_login = hashlib.sha1([token, timestamp, nonce].sort())
 
     if weixin_login == signature: 
         return echorstr
     else:
         return faluse
+    '''
 
-application = sae.create_wsgi_app(app)
+
 
 '''
 def diary_lines():
