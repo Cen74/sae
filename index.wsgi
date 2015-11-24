@@ -81,7 +81,6 @@ def login():
 def set_tag():
     key = request.forms.get('key')
     kv.set(key, '')
-    print 'set TAG:%s' % key
     return 'set TAG:%s' % key
 
 @app.post('/cmd/input')
