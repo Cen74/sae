@@ -3,6 +3,7 @@ from datetime import datetime
 import sys
 import os
 from bottle import Bottle, route, run, template, request, get, post, view
+import hashlib
 
 import sae
 import sae.kvdb
@@ -11,11 +12,25 @@ kv = sae.kvdb.Client()
 
 app = Bottle()
 
-@app.route('/')
-def hello():
-    return "Hello, world! - Bottle"
+@app.get('/')
+def login():
+    token = janet2mm
 
+    signature = request.forms.get('signature')
+    timestamp = request.forms.get('timestamp')
+    nonce = request.forms.get('nonce')
+    echorstr = request.forms.get('echorstr')
 
+    weixin_login = hashlib.sha1([token, timestamp, nonce].sort())
+
+    if weixin_login == signature: 
+        return echorstr
+    else:
+        return faluse
+
+application = sae.create_wsgi_app(app)
+
+'''
 def diary_lines():
     content = [] 
     for i in kv.getkeys_by_prefix('Null'):
@@ -93,8 +108,8 @@ def input_kv():
 def feedback_history():
     key = request.forms.get('key')  
     return cmd_output(key)   #'list' object has no attribute 'getkeys_by_prefix'
+'''
 
 
-application = sae.create_wsgi_app(app)
 
 
