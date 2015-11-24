@@ -1,14 +1,14 @@
 
-from datetime import datetime
-import sys
-import os
+#from datetime import datetime
+#import sys
+#import os
 from bottle import Bottle, route, run, template, request, get, post, view
 # import hashlib
 
 import sae
-import sae.kvdb
+#import sae.kvdb
 
-kv = sae.kvdb.Client()
+#kv = sae.kvdb.Client()
 
 app = Bottle()
 
@@ -17,9 +17,10 @@ application = sae.create_wsgi_app(app)
 @app.get('/')
 def login():
     token = 'janet2mm'
-    print request.query.keys()
-    print request.query.echostr
-    return request.query.echostr
+    return token
+    #print request.query.keys()
+    #print request.query.echostr
+    #return request.query.echostr
 
     '''weixin_login = hashlib.sha1([token, timestamp, nonce].sort())
 
