@@ -17,10 +17,9 @@ application = sae.create_wsgi_app(app)
 @app.get('/')
 def login():
     token = 'janet2mm'
-    return token
-    #print request.query.keys()
-    #print request.query.echostr
-    #return request.query.echostr
+    print request.query.keys()
+    print request.query.echostr
+    return request.query.echostr
 
     '''weixin_login = hashlib.sha1([token, timestamp, nonce].sort())
 
