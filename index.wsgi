@@ -2,7 +2,7 @@
 #from datetime import datetime
 #import sys
 #import os
-from bottle import Bottle, route, run, template, request, get, post, view
+from bottle import Bottle, route, run, template, request, get, post, view, debug
 # import hashlib
 
 import sae
@@ -11,7 +11,7 @@ import sae
 #kv = sae.kvdb.Client()
 
 app = Bottle()
-#bottle.debug(True)
+debug(True)
 
 application = sae.create_wsgi_app(app)
 
