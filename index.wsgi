@@ -34,7 +34,7 @@ def login():
 
 '''
 def diary_lines():
-    content = [] 
+    content = []
     for i in kv.getkeys_by_prefix('Null'):
         content += [kv.get(i)]
     return content 
