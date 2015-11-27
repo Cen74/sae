@@ -3,7 +3,7 @@
 #import sys
 #import os
 from bottle import Bottle, route, run, template, request, get, post, view, debug
-# import hashlib
+import xml.etree.ElementTree as ET
 
 import sae
 #import sae.kvdb
@@ -29,6 +29,12 @@ def login():
     else:
         return faluse
     '''
+
+@app.post('/test')
+def test():
+    str_xml =  request.body()
+    return "ok  "
+
 
 
 
