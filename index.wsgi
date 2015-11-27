@@ -33,7 +33,7 @@ def login():
 @app.post('/test')
 def test():
     #str_xml =  request.body()
-    print request.form.keys()
+    print request.forms.keys()
     return "success"
 
 
