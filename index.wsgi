@@ -1,4 +1,5 @@
 
+ # -*- coding: UTF-8 -*- 
 #from datetime import datetime
 #import sys
 #import os
@@ -32,9 +33,15 @@ def login():
 
 @app.post('/test')
 def test():
-    #str_xml =  request.body()
-    print request.forms.keys()
-    return "success"
+    #str_xml =  request.body() 
+    #print request.forms.keys()
+    str_xml = request.forms.keys()[0] # 只有第一个。
+    #print str_xml[0]  
+    
+    weixin_msg = ET.fromstring(str_xml)
+    print weixin_msg.tag, weixin_msg.attrib
+    print weixin_msg.findtext('Content')
+    return ''
 
 
 
