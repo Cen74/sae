@@ -1,8 +1,11 @@
 
  # -*- coding: UTF-8 -*- 
 #from datetime import datetime
-#import sys
+import sys
 #import os
+# sys.setdefaultencoding() does not exist, here!import sys
+reload(sys)  # Reload does the trick!
+sys.setdefaultencoding('UTF8')
 from bottle import Bottle, route, run, template, request, get, post, view, debug
 import xml.etree.ElementTree as ET
 
