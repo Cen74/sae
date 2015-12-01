@@ -16,11 +16,12 @@ debug(True)
 
 application = sae.create_wsgi_app(app)
 
-@app.get('/')
+@app.get('/weixin')
 def login():
     token = 'janet2mm'
     print request.query.keys()
     print request.query.echostr
+    print request.body.read()
     return request.query.echostr
 
     '''weixin_login = hashlib.sha1([token, timestamp, nonce].sort())
@@ -41,7 +42,7 @@ def test():
     weixin_msg = ET.fromstring(str_xml)
     print weixin_msg.tag, weixin_msg.attrib
     print weixin_msg.findtext('Content')
-    return ''
+    return ''   # 新浪认证后就ok  
 
 
 
