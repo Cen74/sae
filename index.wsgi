@@ -43,16 +43,16 @@ def login():
     return check_signature()
    
 
-@app.post('/test')
+@app.post('/exchange')
 def test():
-    #str_xml =  request.body() 
+    print str_xml =  request.body().read()
     #print request.forms.keys()
-    str_xml = request.forms.keys()[0] # 只有第一个。
+    #str_xml = request.forms.keys()[0] # 只有第一个。
     #print str_xml[0]  
     
-    weixin_msg = ET.fromstring(str_xml)
-    print weixin_msg.tag, weixin_msg.attrib
-    print weixin_msg.findtext('Content')
+    #weixin_msg = ET.fromstring(str_xml)
+    #print weixin_msg.tag, weixin_msg.attrib
+    #print weixin_msg.findtext('Content')
     return ''   # 新浪认证后就ok  
 
 
