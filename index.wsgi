@@ -7,6 +7,7 @@ from bottle import Bottle, route, run, template, request, get, post, view, debug
 import xml.etree.ElementTree as ET
 
 import sae
+import hashlib
 #import sae.kvdb
 
 #kv = sae.kvdb.Client()
@@ -19,18 +20,24 @@ application = sae.create_wsgi_app(app)
 @app.get('/weixin')
 def login():
     token = 'janet2mm'
+
+    timestamp = request.query.timestamp
+    nonce = request.query.nonce
+    signature = request.query.signature
+    echostr = request.query.echostr
+
     print request.query.keys()
-    print request.query.echostr
-    print request.body.read()
-    return request.query.echostr
 
-    '''weixin_login = hashlib.sha1([token, timestamp, nonce].sort())
+    login_str = ''.join(sorted([token, timestamp, nonce]))
+    print login_str
 
-    if weixin_login == signature: 
-        return echorstr
-    else:
-        return faluse
-    '''
+    check_login = hashlib.sha1(login_str)
+
+    if check_login is signature:
+        return echostr
+    else: 
+        print 'login error'
+   
 
 @app.post('/test')
 def test():
