@@ -43,7 +43,7 @@ def login():
     return check_signature()
    
 
-@app.post('/exchange')
+@app.post('/weixin')
 def test():
     print request.body.read()
     weixin_msg = ET.fromstring(request.body.read())
