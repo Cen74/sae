@@ -36,7 +36,7 @@ def login():
     print check_login
 
 
-    if check_login is signature:
+    if check_login == signature:
         return echostr
     else: 
         print 'login error'
