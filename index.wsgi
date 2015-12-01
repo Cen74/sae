@@ -46,6 +46,8 @@ def login():
 @app.post('/exchange')
 def test():
     print request.body.read()
+    weixin_msg = ET.fromstring(request.body.read())
+    echo_content = weixin_msg.findtext('Content')
     #print request.forms.keys()
     #str_xml = request.forms.keys()[0] # 只有第一个。
     #print str_xml[0]  
