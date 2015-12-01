@@ -17,8 +17,8 @@ debug(True)
 
 application = sae.create_wsgi_app(app)
 
-@app.get('/weixin')
-def login():
+
+def check_signature():
     token = 'janet2mm'
 
     timestamp = request.query.timestamp
@@ -26,20 +26,21 @@ def login():
     signature = request.query.signature
     echostr = request.query.echostr
 
-    print request.query.keys()
-    print "signatre: %s" % signature
-
     login_str = ''.join(sorted([token, timestamp, nonce]))
-    print login_str
-
     check_login = hashlib.sha1(login_str).hexdigest()
-    print check_login
 
+    #print type(signature), type(check_login)
+    #print "singnture:%s, check_login:%s" % (signature, check_login)
 
-    if check_login == signature:
+    if check_login == signature: # 如果是 if check_login is signature 就会报错, signature 是unicode object
         return echostr
     else: 
-        print 'login error'
+        return None
+
+
+@app.get('/weixin')
+def login():
+    return check_signature()
    
 
 @app.post('/test')
