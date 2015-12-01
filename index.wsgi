@@ -32,7 +32,7 @@ def login():
     login_str = ''.join(sorted([token, timestamp, nonce]))
     print login_str
 
-    check_login = hashlib.sha1(login_str)
+    check_login = hashlib.sha1(login_str).hexdigest()
     print check_login
 
 
