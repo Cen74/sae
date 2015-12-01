@@ -47,17 +47,22 @@ def login():
 def test():
     print request.body.read()
     weixin_msg = ET.fromstring(request.body.read())
-    echo_content = weixin_msg.findtext('Content')
-    #print request.forms.keys()
-    #str_xml = request.forms.keys()[0] # 只有第一个。
-    #print str_xml[0]  
-    
-    #weixin_msg = ET.fromstring(str_xml)
-    #print weixin_msg.tag, weixin_msg.attrib
-    #print weixin_msg.findtext('Content')
-    return ''   # 新浪认证后就ok  
+    mydict = {child.tag:child.text for child in weixin_msg}
+    print mydict
 
+    import time
+    mydict['CreateTime'] = int(time.time())
 
+    xml_return = '''
+    <xml>
+    <ToUserName><![CDATA[{}]]></ToUserName>
+    <FromUserName><![CDATA[{}]]></FromUserName>
+    <CreateTime>{}</CreateTime>
+    <MsgType><![CDATA[text]]></MsgType>
+    <Content><![CDATA[{}]]></Content>
+    </xml> '''.format(mydict['FromUserName'], mydict['ToUserName'], mydict['CreateTime'], mydict['Content'])
+
+    return xml_return
 
 
 '''
