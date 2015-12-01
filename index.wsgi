@@ -27,11 +27,14 @@ def login():
     echostr = request.query.echostr
 
     print request.query.keys()
+    print "signatre: %s" % signature
 
     login_str = ''.join(sorted([token, timestamp, nonce]))
     print login_str
 
     check_login = hashlib.sha1(login_str)
+    print check_login
+
 
     if check_login is signature:
         return echostr
