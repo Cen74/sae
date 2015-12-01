@@ -45,7 +45,7 @@ def login():
 
 @app.post('/exchange')
 def test():
-    print request.body().read()
+    print request.body.read()
     #print request.forms.keys()
     #str_xml = request.forms.keys()[0] # 只有第一个。
     #print str_xml[0]  
