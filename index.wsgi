@@ -1,8 +1,13 @@
 
 from datetime import datetime
-import sys
 import os
-from bottle import Bottle, route, run, template, request, get, post, view
+from bottle import Bottle, route, run, template, request, get, post, view, debug
+
+import sys
+#import os
+# sys.setdefaultencoding() does not exist, here!import sys
+reload(sys)  # Reload does the trick!
+sys.setdefaultencoding('UTF8')
 
 import sae
 import sae.kvdb
@@ -10,11 +15,66 @@ import sae.kvdb
 kv = sae.kvdb.Client()
 
 app = Bottle()
+debug(True)
+
+
 
 @app.route('/')
 def hello():
     return "Hello, world! - Bottle"
 
+count = 0
+
+def cli_write_diary(post):
+    global count 
+    count += 1
+
+    wtime = datetime.now()
+    str_wtime = wtime.strftime("%Y-%m-%d %H:%M:%S")
+
+    key   = 'Key' + str(count)
+    value =  {'time':str_wtime, 'content':post}
+    kv.set(key, value)
+    #for item in kv.get_by_prefix('Key'):
+    #   print item[1], item[0]
+
+def getkey(item):
+    return item[0]
+
+def cli_return_all():
+    raw_kv = [ item for item in kv.get_by_prefix('Key') ]
+    # 以
+    sorted_kv = sorted(raw_kv, key=lambda x:x[0], reverse=True)
+    result = [elment[1] for elment in sorted_kv]
+    return result
+
+
+@app.get('/newdiary')
+def welcome():
+    history = cli_return_all()
+    return template('diary2', content = history)
+
+@app.route('/newdiary', method='POST')
+def print_input():
+    client_input = request.forms.get('input')
+    cli_write_diary(client_input)
+    return template('diary2', content=cli_return_all())
+
+
+application = sae.create_wsgi_app(app)
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 
 def diary_lines():
     content = [] 
@@ -94,7 +154,4 @@ def feedback_history():
     key = request.forms.get('key')  
     return cmd_output(key)   #'list' object has no attribute 'getkeys_by_prefix'
 
-
-application = sae.create_wsgi_app(app)
-
-
+'''
